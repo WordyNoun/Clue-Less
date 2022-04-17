@@ -8,14 +8,14 @@
  */
 public class Hand {
     public Cards[] playerHand;
-    public int playerID;
+    public PlayerDummy player;
     public int size;
     
-    public Hand(int handSize, Cards[] cardSet, int playerID) {
+    public Hand(int handSize, Cards[] cardSet, PlayerDummy player) {
         this.playerHand = new Cards[handSize];
         this.playerHand = cardSet;
-        this.playerID = playerID;
         this.size = handSize;
+        this.player = player;
     }
     
     public Cards[] getWeaponCards() {
@@ -161,4 +161,6 @@ public class Hand {
         
         return output;
     }
+    
+    
 }
