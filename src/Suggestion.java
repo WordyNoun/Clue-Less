@@ -10,12 +10,12 @@ public class Suggestion {
     public Room suggestedRoom;
     public Character suggestedCharacter;
     public Weapon suggestedWeapon;
-    public Player suggestedBy;
+    public PlayerDummy suggestedBy;
     public boolean disproven;
-    public Player disprovedBy;
+    public PlayerDummy disprovedBy;
     public String disprovenObject;
     
-    public Suggestion(Room roomSug, Weapon weaponSug, Character characterSug, Player sugBy) {
+    public Suggestion(Room roomSug, Weapon weaponSug, Character characterSug, PlayerDummy sugBy) {
         this.disprovedBy = sugBy;
         this.suggestedRoom = roomSug;
         this.suggestedWeapon = weaponSug;
@@ -59,7 +59,7 @@ public class Suggestion {
         return this.suggestedCharacter;
     }
     
-    public void disproveSuggestion(Player disprovedBy, Cards disproveCard) {
+    public void disproveSuggestion(PlayerDummy disprovedBy, Cards disproveCard) {
         String objectType = disproveCard.getCardType();
         this.disprovedBy = disprovedBy;
         this.disprovenObject = objectType;

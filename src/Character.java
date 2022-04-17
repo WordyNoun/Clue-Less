@@ -8,7 +8,7 @@
  */
 public class Character {
     public String characterName;
-    public Player playedBy;
+    public PlayerDummy playedBy;
     public boolean playedByPlayer;
     
     public Character(String name) {
@@ -17,7 +17,7 @@ public class Character {
         this.playedByPlayer = false;
     }
     
-    public void setPlayedBy(Player playedBy) {
+    public void setPlayedBy(PlayerDummy playedBy) {
         this.playedBy = playedBy;
         this.playedByPlayer = true;
     }
@@ -25,6 +25,10 @@ public class Character {
     public String getChracterName() {
         return this.characterName;
     }
+    
+    public boolean getPlayed() {
+        return this.playedByPlayer;
+    }   
     
     public String toString() {
         String output;
