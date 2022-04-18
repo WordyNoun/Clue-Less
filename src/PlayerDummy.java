@@ -38,5 +38,13 @@ public class PlayerDummy {
     public String getPlayerName() {
         return this.playerName;
     }
+    
+    public String toString() {
+        String output = "";
+        
+        output = "Player ID: " + this.playerID + " Player name: " + this.playerName + "\n";
+        
+        return output;
+    }
 
 }

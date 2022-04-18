@@ -25,7 +25,7 @@ public class Hand {
         Cards[] weaponCardHand = null;
         
         for (i = 0; i < size; i++) {
-            if (playerHand[i].getCardType() == "Weapon") {
+            if (playerHand[i].getCardType().equals("Weapon")) {
                 numCard++;
             }
         }
@@ -35,7 +35,7 @@ public class Hand {
             weaponCardHand = new Cards[numCard];
             
             for (i = 0; i < size; i++) {
-                if (playerHand[i].getCardType() == "Weapon") {
+                if (playerHand[i].getCardType().equals("Weapon")) {
                     weaponCardHand[k] = playerHand[i];
                     k++;
                 }
@@ -54,7 +54,7 @@ public class Hand {
         Cards[] characterCardHand = null;
         
         for (i = 0; i < size; i++) {
-            if (playerHand[i].getCardType() == "Character") {
+            if (playerHand[i].getCardType().equals("Character")) {
                 numCard++;
             }
         }
@@ -64,7 +64,7 @@ public class Hand {
             characterCardHand = new Cards[numCard];
             
             for (i = 0; i < size; i++) {
-                if (playerHand[i].getCardType() == "Character") {
+                if (playerHand[i].getCardType().equals("Character")) {
                     characterCardHand[k] = playerHand[i];
                     k++;
                 }
@@ -82,7 +82,7 @@ public class Hand {
         Cards[] roomCardHand = null;
         
         for (i = 0; i < size; i++) {
-            if (playerHand[i].getCardType() == "Room") {
+            if (playerHand[i].getCardType().equals("Room")) {
                 numCard++;
             }
         }
@@ -92,7 +92,7 @@ public class Hand {
             roomCardHand = new Cards[numCard];
             
             for (i = 0; i < size; i++) {
-                if (playerHand[i].getCardType() == "Room") {
+                if (playerHand[i].getCardType().equals("Room")) {
                     roomCardHand[k] = playerHand[i];
                     k++;
                 }
@@ -110,7 +110,7 @@ public class Hand {
         output = "These are the Weapon cards in your hand: \n";
         
         for (i = 0; i < size; i++) {
-            if (playerHand[i].getCardType() == "Weapon") {
+            if (playerHand[i].getCardType().equals("Weapon")) {
                 output += playerHand[i].toString() + "\n";
             }
         }                
@@ -126,7 +126,7 @@ public class Hand {
         output = "These are the Character cards in your hand: \n";
         
         for (i = 0; i < size; i++) {
-            if (playerHand[i].getCardType() == "Character") {
+            if (playerHand[i].getCardType().equals("Character")) {
                 output += playerHand[i].toString() + "\n";
             }
         }                
@@ -141,7 +141,7 @@ public class Hand {
         output = "These are the Room cards in your hand: \n";
         
         for (i = 0; i < size; i++) {
-            if (playerHand[i].getCardType() == "Room") {
+            if (playerHand[i].getCardType().equals("Room")) {
                 output += playerHand[i].toString() + "\n";
             }
         }                

@@ -11,9 +11,10 @@ public class DriverClass {
         String playerName;
         PlayerDummy player;
         gameManager curGame;
+        String playerOrder;
+
         
-        
-        while (numPlayers != 3 && numPlayers != 6){
+        while (numPlayers < 3 || numPlayers > 6){
             System.out.println("Please enter the number of players that will be playing (3-6): ");
             numPlayers = userInput.nextInt();
             
@@ -50,9 +51,29 @@ public class DriverClass {
         curGame.createExtraCards();
         
         //Have players choose characters
-        assignPlayerCharacters(curGame, playerList);                    
+        assignPlayerCharacters(curGame, playerList);     
+        
+        //Determine Player Order
+        curGame.determinePlayerOrder();
+        
+        //Print player order
+        System.out.println(curGame.printPlayerOrder());
+        
+        //print extra line
+        System.out.println();
+        
+        //Starting player turns
+        while (curGame.gameWon == false) {
+            curGame.changePlayerTurn();
+            playerPlayTurn(curGame);
+            
+        }
+        
+        
     }
     
+    
+
     public static void assignPlayerHands(gameManager curGame, PlayerDummy[] playerList) {
         Hand playerHand;
         
@@ -97,22 +118,25 @@ public class DriverClass {
             System.out.println(playerList[i].playerName + " has chosen " + playerList[i].playerCharacter.characterName);
             System.out.println();
         }
-        
-        userInput.close();
+                
     }
     
-    public static void playerTurn(gameManager curGame, PlayerDummy currentPlayer) {
+    public static void playerPlayTurn(gameManager curGame) {
         Scanner userInput = new Scanner(System.in);
         int choice;
+        PlayerDummy currentPlayer;
+        String extraCards;
         
-        curGame.printExtraCards();
-        curGame.printPlayerHand(currentPlayer);
-        curGame.printGameBoard();
+        currentPlayer = curGame.currentPlayerTurn;
+        
+        System.out.println(curGame.printExtraCards());
+        System.out.println(curGame.printPlayerHand(currentPlayer));
+        System.out.println(curGame.printGameBoard());
         
         System.out.println(currentPlayer.playerName + " it is your turn. Please choose from the following options by typing in the number: ");
         System.out.println("1) Make a movement");
         System.out.println("2) Make a Suggestion");
-        System.out.println("1) Make an accusation");
+        System.out.println("3) Make an accusation");
         
         choice = userInput.nextInt();
         
@@ -132,6 +156,7 @@ public class DriverClass {
         Scanner userInputWeapon = new Scanner(System.in);
         Scanner userInputCharacter = new Scanner(System.in);
         
+        
         //print previous suggestions made by the player to the player
         curGame.printPreviousSuggestions(currentPlayer);
         System.out.println();
@@ -144,7 +169,20 @@ public class DriverClass {
         System.out.println(curGame.printAvailableWeaponsSuggstionAccusation(currentPlayer));
         chosenWeapon = userInputWeapon.nextInt();
         
+        
         //curGame.makeSuggestion();
+        
+    }
+    
+    public static void disproveSuggestion(gameManager curGame, Suggestion currentSuggestion) {
+        PlayerDummy disprovePlayer = null;
+        Scanner userInput = new Scanner(System.in);
+        
+        curGame.changeDisprovePlayerTurn();
+        
+        disprovePlayer = curGame.disprovePlayerTurn;
+        System.out.println(disprovePlayer.playerName + " it is your turn to disprove the suggestion. Type in the name of the card you would like to use to disprove the suggestion. If you cannot disprove the suggestion type: pass.");
+        System.out.println(curGame.printPlayerHand(disprovePlayer));
         
     }
     
