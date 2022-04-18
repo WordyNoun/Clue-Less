@@ -29,13 +29,19 @@ public class gameManager {
     public boolean extraCardsExist;
     public HashMap<PlayerDummy, Character> playerCharacter;
     public HashMap<PlayerDummy, ArrayList<Suggestion>> playerSuggestion;
+    public PlayerDummy currentPlayerTurn;
+    public PlayerDummy[] playerOrder;
+    public PlayerDummy disprovePlayerTurn;
     
     public gameManager(int numP) {
         playerCharacter = new HashMap<PlayerDummy, Character>();
         playerHands = new HashMap<PlayerDummy, Hand>();
         playerSuggestion = new HashMap<PlayerDummy, ArrayList<Suggestion>>();
         numPlayers = numP;
+        playerOrder = new PlayerDummy[numP];
         gameWon = false;
+        currentPlayerTurn = null;
+        disprovePlayerTurn = null;
         extraCardsExist = false;
         extraCards = null;
         weaponCards = new Cards[6];
@@ -367,7 +373,7 @@ public class gameManager {
         
         ropeCard = new Cards("Rope", "Weapon");
         leadCard = new Cards("Lead Pipe", "Weapon");
-        knifeCard = new Cards("knife", "Weapon");
+        knifeCard = new Cards("Knife", "Weapon");
         wrenchCard = new Cards("Wrench", "Weapon");
         candleCard = new Cards("Candle Stick", "Weapon");
         revolverCard = new Cards("Revolver", "Weapon");
@@ -392,7 +398,7 @@ public class gameManager {
         Cards[] characterCardArray;
         characterCardArray = new Cards[6];
         scarletCard = new Cards("Miss Scarlet", "Character");
-        plumCard = new Cards("Prof. plum", "Character");
+        plumCard = new Cards("Prof. Plum", "Character");
         mustardCard = new Cards("Col. Mustard", "Character");
         peacockCard = new Cards("Mrs. Peacock", "Character");
         greenCard = new Cards("Mr. Green", "Character");
@@ -459,11 +465,16 @@ public class gameManager {
     public String printExtraCards() {
         String output;
         
-        output = "The following cards are extra cards on the table: \n";
         
-        for (int i = 0; i < extraCards.length; i++) {
-            output += extraCards[i].toString();
+        if (extraCards != null) {
+            output = "The following cards are extra cards on the table: \n";
+            for (int i = 0; i < extraCards.length; i++) {
+                output += extraCards[i].toString();
+            }
+        } else {
+            output = "There are no extra cards on the table to see.\n";
         }
+        
         
         return output;
     }
@@ -746,6 +757,102 @@ public class gameManager {
             playerSug.add(newPlayerSuggestion);
             playerSuggestion.put(player, playerSug);
         }
+        
+    }
+    
+    public void changePlayerTurn() {
+        int nextPlayer = 0;
+        
+        //if this is the first player turn then the first player to go will be the first in order
+        if (currentPlayerTurn == null) {
+            currentPlayerTurn = playerOrder[0];
+        } else {
+        
+           for(int i = 0; i < playerOrder.length; i++) {
+               if(playerOrder[i].playerName.equals(currentPlayerTurn.playerName)) {
+                   nextPlayer = i + 1;
+                   if (nextPlayer == numPlayers) {
+                       currentPlayerTurn = playerOrder[0];
+                       break;
+                       
+                   } else {
+                       currentPlayerTurn = playerOrder[nextPlayer];
+                       break;
+                   }
+               }
+           }
+        }
+    }
+    
+    public void changeDisprovePlayerTurn() {
+        int nextPlayer = 0;
+        
+        //if this is the first player turn then the first player to go will be the first in order
+        if (currentPlayerTurn == null) {
+            currentPlayerTurn = playerOrder[0];
+        } else {
+        
+           for(int i = 0; i < playerOrder.length; i++) {
+               if(playerOrder[i].playerName.equals(currentDisprovePlayerTurn.playerName)) {
+                   nextPlayer = i + 1;
+                   if (nextPlayer == numPlayers) {
+                       currentDisprovePlayerTurn = playerOrder[0];
+                       break;
+                       
+                   } else {
+                       currentDisprovePlayerTurn = playerOrder[nextPlayer];
+                       break;
+                   }
+               }
+           }
+        }
+    }
+    
+    public void determinePlayerOrder(){
+        int k = 0;
+        
+        for(int i= 0; i < allCharacters.length; i++) {
+            if(allCharacters[i].characterName.equals("Miss Scarlet") && allCharacters[i].playedByPlayer == true) {
+                playerOrder[k] = allCharacters[i].playedBy;
+                k++;
+            } 
+            if(allCharacters[i].characterName.equals("Col. Mustard") && allCharacters[i].playedByPlayer == true) {
+                playerOrder[k] = allCharacters[i].playedBy;
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Mrs. White") && allCharacters[i].playedByPlayer == true) {
+                playerOrder[k] = allCharacters[i].playedBy;
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Mr. Green") && allCharacters[i].playedByPlayer == true) {
+                playerOrder[k] = allCharacters[i].playedBy;
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Mrs. Peacock") && allCharacters[i].playedByPlayer == true) {
+                playerOrder[k] = allCharacters[i].playedBy;
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Prof. Plum") && allCharacters[i].playedByPlayer == true) {
+                playerOrder[k] = allCharacters[i].playedBy;
+                k++;
+            }
+            
+            
+         }
+    }
+    
+    public String printPlayerOrder() {
+        String output = "";
+        
+        output = "This is the order of player turns: \n";
+        for (int i = 0; i<playerOrder.length; i++) {
+            output += playerOrder[i].toString();
+        }
+        
+        return output;
+    }
+    
+    public void disproveSuggestion() {
         
     }
 }

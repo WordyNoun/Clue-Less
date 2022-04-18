@@ -13,7 +13,7 @@ public class Cards {
     public boolean inCaseFile;
     public boolean inPlayerHand;
     
-    public Cards(String type, String name) {
+    public Cards(String name, String type) {
         this.cardName = name;
         this.cardType = type;
         this.inCaseFile = false;
