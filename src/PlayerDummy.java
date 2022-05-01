@@ -15,12 +15,14 @@ public class PlayerDummy {
     public String playerName;
     public int playerID;
     public Character playerCharacter;
+    public boolean disabled;
     
     public PlayerDummy(int id, String name) {
         this.playerID = id;
         this.playerName = name;
         this.playerHand = null;
         this.playerCharacter = null;
+        this.disabled = false;
     }
     
     public void setPlayerID(int id) {
@@ -37,6 +39,10 @@ public class PlayerDummy {
     
     public String getPlayerName() {
         return this.playerName;
+    }
+    
+    public void disablePlayer() {
+        this.disabled = true;
     }
     
     public String toString() {

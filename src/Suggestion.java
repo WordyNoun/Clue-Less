@@ -16,7 +16,7 @@ public class Suggestion {
     public String disprovenObject;
     
     public Suggestion(Room roomSug, Weapon weaponSug, Character characterSug, PlayerDummy sugBy) {
-        this.disprovedBy = sugBy;
+        this.suggestedBy = sugBy;
         this.suggestedRoom = roomSug;
         this.suggestedWeapon = weaponSug;
         this.suggestedCharacter = characterSug;

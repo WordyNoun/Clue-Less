@@ -148,47 +148,150 @@ public class DriverClass {
             makeSuggestion(curGame, currentPlayer);
         }
         
+        if (choice == 3) {
+            makeAccusation(curGame, currentPlayer);
+        }
+        
+        
+        
     }
     
     public static void makeSuggestion(gameManager curGame, PlayerDummy currentPlayer) {
-        int chosenWeapon = 0;
-        int chosenCharacter = 0;
+        String chosenWeapon;
+        String chosenCharacter;
         Scanner userInputWeapon = new Scanner(System.in);
         Scanner userInputCharacter = new Scanner(System.in);
-        
+        Boolean roomAvailable = false;
+        Scanner userInput = new Scanner(System.in);
+        String roomName;
+        Suggestion currentSuggestion = null;
+        Character characterSug = null;
+        Weapon weaponSug = null;
         
         //print previous suggestions made by the player to the player
         curGame.printPreviousSuggestions(currentPlayer);
         System.out.println();
+        Room roomSug = null;
         
         //Prompt player to choose from the following characters
         System.out.println(curGame.printAvailableCharactersSuggestionAccusation(currentPlayer));
-        chosenCharacter = userInputCharacter.nextInt();
+        chosenCharacter = userInputCharacter.nextLine();        
+        characterSug = curGame.getCharacterFromName(chosenCharacter);
         
         //Prompt player to choose from the following weapons
         System.out.println(curGame.printAvailableWeaponsSuggstionAccusation(currentPlayer));
-        chosenWeapon = userInputWeapon.nextInt();
+        chosenWeapon = userInputWeapon.nextLine();
+        weaponSug = curGame.getWeaponFromName(chosenWeapon);
+        
+        while (roomAvailable == false){
+            System.out.println("Please type in a room for the suggestion: \n");
+            roomName = userInput.nextLine();
+            roomSug = curGame.getRoomFromName(roomName);
+            roomAvailable = curGame.checkRoomForSuggestion(currentPlayer, roomSug);
+        }
+        
+        currentSuggestion = new Suggestion(roomSug, weaponSug, characterSug, currentPlayer);
+        
+        System.out.println();
+        
+        System.out.println(currentSuggestion.printInitialSuggestion());
+        
+        disproveSuggestion(curGame, currentSuggestion, currentPlayer);
         
         
-        //curGame.makeSuggestion();
         
     }
     
-    public static void disproveSuggestion(gameManager curGame, Suggestion currentSuggestion) {
-        PlayerDummy disprovePlayer = null;
+    public static void disproveSuggestion(gameManager curGame, Suggestion currentSuggestion, PlayerDummy playerSuggesting) {
         Scanner userInput = new Scanner(System.in);
+        boolean disproven = false;
+        curGame.changeDisprovePlayerTurn(playerSuggesting);
+        String cardChosen;
+        Cards disproveCard = null;
+        String accuseOrFinish;
         
-        curGame.changeDisprovePlayerTurn();
         
-        disprovePlayer = curGame.disprovePlayerTurn;
-        System.out.println(disprovePlayer.playerName + " it is your turn to disprove the suggestion. Type in the name of the card you would like to use to disprove the suggestion. If you cannot disprove the suggestion type: pass.");
-        System.out.println(curGame.printPlayerHand(disprovePlayer));
+        while(disproven == false && !curGame.disprovePlayerTurn.playerName.equals(playerSuggesting.playerName)) {
+            curGame.disprovePlayerTurn = curGame.disprovePlayerTurn;
+            System.out.println(curGame.disprovePlayerTurn.playerName + " it is your turn to disprove the suggestion. Type in the name of the card you would like to use to disprove the suggestion. If you cannot disprove the suggestion type: pass.");
+            System.out.println(curGame.printPlayerHand(curGame.disprovePlayerTurn));
+            cardChosen = userInput.nextLine();
+            
+            if(!cardChosen.trim().toUpperCase().equals("PASS")) {
+                disproveCard = curGame.getCardFromName(cardChosen);
+                disproven = currentSuggestion.checkDisproveCard(disproveCard);            
+            }
+            
+            if (disproven == true) {
+                currentSuggestion.disproveSuggestion(curGame.disprovePlayerTurn, disproveCard);
+            }
+            
+            curGame.changeDisprovePlayerTurn(curGame.disprovePlayerTurn);
+        }
         
+        System.out.println();
+        
+        if (disproven == true) {
+            System.out.println(currentSuggestion.printFinalizedSuggestionPlayer());
+            System.out.println(currentSuggestion.printFinalizedSuggestionAll());
+                        
+        } else {
+            System.out.println(currentSuggestion.printFinalizedSuggestionPlayer());
+            System.out.println(currentSuggestion.printFinalizedSuggestionAll());
+            System.out.println("Would you like to make an accusation now? Please type yes or no.\n");
+            accuseOrFinish = userInput.nextLine();
+            if (accuseOrFinish.trim().toUpperCase().equals("YES")) {
+                makeAccusation(curGame, playerSuggesting);
+            }
+
+        }
+        
+        System.out.println();
     }
     
-    //public static void makeAccusation(gameManager, PlayerDummy currentPlayer) {
+    public static void makeAccusation(gameManager curGame, PlayerDummy currentPlayer) {
+        String chosenWeapon;
+        String chosenCharacter;
+        String chosenRoom;
+        Weapon accuseWeapon;
+        Character accuseCharacter;
+        Room accuseRoom;
+        Scanner userInputWeapon = new Scanner(System.in);
+        Scanner userInputCharacter = new Scanner(System.in);
+        Scanner userInputRoom = new Scanner(System.in);
+        boolean correctAccusation;
+        Accusation curAccusation = null;
         
-    //}
+        System.out.println(curGame.gameCaseFile.toString());
+        System.out.println(currentPlayer.playerName + " has chosen to make an accusation. If the accusation is correct they win the game. If it is false they may no longer take a turn.\n");
+        
+        
+        //Prompt player to choose from the following characters
+        System.out.println(curGame.printAvailableCharactersSuggestionAccusation(currentPlayer));
+        chosenCharacter = userInputCharacter.nextLine();        
+        accuseCharacter = curGame.getCharacterFromName(chosenCharacter);
+        
+        //Prompt player to choose from the following weapons
+        System.out.println(curGame.printAvailableWeaponsSuggstionAccusation(currentPlayer));
+        chosenWeapon = userInputWeapon.nextLine();
+        accuseWeapon = curGame.getWeaponFromName(chosenWeapon);
+        
+        //Prompt player to choose from the following Rooms
+        System.out.println(curGame.printAvailableRoomsSuggstionAccusation(currentPlayer));
+        chosenRoom = userInputRoom.nextLine();
+        accuseRoom = curGame.getRoomFromName(chosenRoom);
+        
+        curAccusation = new Accusation(currentPlayer, accuseRoom, accuseWeapon, accuseCharacter, curGame.gameCaseFile, curGame);
+        
+        correctAccusation = curAccusation.checkAccusation();
+        
+        System.out.println(curAccusation.printToAccusationPlayer());
+        
+        System.out.println();
+        System.out.println(curAccusation.toString());
+        System.out.println();
+        
+    }
     
 
 }

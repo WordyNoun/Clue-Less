@@ -569,7 +569,7 @@ public class gameManager {
         
         //If there are available weapons print each available weapon
         if (availableWeapons != null) {
-            output = "The following weapons are available. Please type the number next to the weapon to select it: \n";
+            output = "The following weapons are available. Please type the weapon name to select it: \n";
             for (Weapon aWeapon: availableWeapons) {
                 output += weaponNumber + ") " + aWeapon.weaponName + "\n";
                 weaponNumber++;
@@ -654,7 +654,7 @@ public class gameManager {
         
         //If there are available characters print each available character
         if (availableCharacters != null) {
-            output = "The following characters are available. Please type the number next to the character to select it: \n";
+            output = "The following characters are available. Please type the character name to select it: \n";
             for (Character aCharacter: availableCharacters) {
                 output += characterNumber + ") " + aCharacter.characterName + "\n";
                 characterNumber++;
@@ -726,6 +726,30 @@ public class gameManager {
            
     }
     
+    public String printAvailableRoomsSuggstionAccusation(PlayerDummy player) {
+        String output = "";
+        int roomNumber = 1;
+        ArrayList<Room> availableRooms;
+        
+        
+        //Call the method to get available rooms
+        availableRooms = getAvailableSuggestionAccusationRooms(player);
+        
+        
+        //If there are available rooms print each available room
+        if (availableRooms != null) {
+            output = "The following rooms are available. Please type the room name to select it: \n";
+            for (Room aRoom: availableRooms) {
+                output += roomNumber + ") " + aRoom.roomName + "\n";
+                roomNumber++;
+            }
+        } else {
+            output = "There are no available rooms to suggest please make an accusation.\n";
+        }
+        
+        return output;
+    }
+    
     public boolean checkRoomForSuggestion(PlayerDummy player, Room currentRoom) {
         boolean canMakeSuggestionFromRoom = false;
         ArrayList<Room> availableRooms;
@@ -740,6 +764,52 @@ public class gameManager {
         
         return canMakeSuggestionFromRoom;
     }
+    
+    public Room getRoomFromName(String roomName) {
+        Room roomObjReturn = null;
+        
+        for (int i = 0; i < allRooms.length; i++) {
+            if (allRooms[i].roomName.toUpperCase().equals(roomName.trim().toUpperCase())) {
+                roomObjReturn = allRooms[i];
+            }
+        }
+        
+        return roomObjReturn;
+    }
+    
+    public Weapon getWeaponFromName(String weaponName) {
+        Weapon weaponObjReturn = null;
+        
+        for (int i = 0; i < allWeapons.length; i++) {
+            if (allWeapons[i].weaponName.toUpperCase().equals(weaponName.trim().toUpperCase())) {
+                weaponObjReturn = allWeapons[i];
+            }
+        }        
+        return weaponObjReturn;
+    }
+    
+    public Character getCharacterFromName(String characterName) {
+        Character characterObjReturn = null;
+        
+        for (int i = 0; i < allCharacters.length; i++) {
+            if (allCharacters[i].characterName.toUpperCase().equals(characterName.trim().toUpperCase())) {
+                characterObjReturn = allCharacters[i];
+            }
+        }        
+        return characterObjReturn;
+    }
+    
+    public Cards getCardFromName(String cardName) {
+        Cards cardObjReturn = null;
+        
+        for (int i = 0; i < allCards.length; i++) {
+            if (allCards[i].cardName.toUpperCase().equals(cardName.trim().toUpperCase())) {
+                cardObjReturn = allCards[i];
+            }
+        }        
+        return cardObjReturn;
+    }
+    
     
     public void createSuggestion(PlayerDummy player, Room chosenRoom, Weapon chosenWeapon, Character chosenCharacter) {
         Suggestion newPlayerSuggestion;
@@ -784,29 +854,24 @@ public class gameManager {
         }
     }
     
-    public void changeDisprovePlayerTurn() {
+    public void changeDisprovePlayerTurn(PlayerDummy curPlayer) {
         int nextPlayer = 0;
         
-        //if this is the first player turn then the first player to go will be the first in order
-        if (currentPlayerTurn == null) {
-            currentPlayerTurn = playerOrder[0];
-        } else {
-        
-           for(int i = 0; i < playerOrder.length; i++) {
-               if(playerOrder[i].playerName.equals(currentDisprovePlayerTurn.playerName)) {
-                   nextPlayer = i + 1;
-                   if (nextPlayer == numPlayers) {
-                       currentDisprovePlayerTurn = playerOrder[0];
-                       break;
-                       
-                   } else {
-                       currentDisprovePlayerTurn = playerOrder[nextPlayer];
-                       break;
-                   }
-               }
-           }
+        for(int i = 0; i < playerOrder.length; i++) {
+            if(playerOrder[i].playerName.equals(curPlayer.playerName)) {
+                nextPlayer = i + 1;
+                if (nextPlayer == numPlayers) {
+                    disprovePlayerTurn = playerOrder[0];
+                    break;
+                    
+                } else {
+                    disprovePlayerTurn = playerOrder[nextPlayer];
+                    break;
+                }
+            }
         }
-    }
+     }
+    
     
     public void determinePlayerOrder(){
         int k = 0;
