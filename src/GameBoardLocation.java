@@ -31,6 +31,10 @@ public class GameBoardLocation {
     
     @Override
     public String toString() {
-    	return "Name: " + GameBoardLocationName + " Type: " + GameBoardLocationType + " Hallway Occupied: " + hallwayOccupied; 
+    	if(GameBoardLocationType.equals("room")) {
+    		return "Name: " + GameBoardLocationName + ", Type: " + GameBoardLocationType;
+    	} else {
+        	return "Name: " + GameBoardLocationName + ", Type: " + GameBoardLocationType + ", Hallway Occupied: " + hallwayOccupied; 
+    	}
     }
 }
