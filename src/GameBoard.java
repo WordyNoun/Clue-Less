@@ -151,16 +151,31 @@ public class GameBoard {
       for(int i = 0; i < adjLoc.length; i++) {
          System.out.println(adjLoc[i]);
       }
+      System.out.println();
+   }
+   
+   public String[] getAdjacentLoc(String locName) {
+	  GameBoardLocation[] adjLoc = adjLocations.get(locName);
+	  String[] retLoc = new String[adjLoc.length];
+	  for(int i = 0; i < adjLoc.length; i++) {
+	     retLoc[i] = adjLoc[i].getLocationName();
+	  }
+	  return retLoc;
    }
    
    public String getPlayerLoc(String playerName) {
       return playerLocations.get(playerName).getLocationName();
+   }
+
+   public String getPlayerLocationType(String playerName) {
+	   return playerLocations.get(playerName).getLocationType();
    }
    
    public void printAllPlayerLoc() {
       for(Map.Entry<String, GameBoardLocation> set : playerLocations.entrySet()) {
          System.out.println(set.getKey() + " -> " + set.getValue());
       }
+      System.out.println();
    }
    
    public String getLocation(String locName) {
@@ -171,8 +186,8 @@ public class GameBoard {
       for(Map.Entry<String, GameBoardLocation> set : locations.entrySet()) {
          System.out.println(set.getKey() + " -> " + set.getValue());
       }
+      System.out.println();
    }
-   
    
    // tests the functions of the GameBoard
    public static void main(String args[]) {

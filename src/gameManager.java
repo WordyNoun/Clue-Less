@@ -32,6 +32,7 @@ public class gameManager {
     public PlayerDummy currentPlayerTurn;
     public PlayerDummy[] playerOrder;
     public PlayerDummy disprovePlayerTurn;
+    public GameBoard board;
     
     public gameManager(int numP) {
         playerCharacter = new HashMap<PlayerDummy, Character>();
@@ -61,6 +62,7 @@ public class gameManager {
         allRooms = createRooms();
         allHallways = createHallways();
         allSecretPassages = createSecretPassages();
+        board = new GameBoard();
         gameBoard = "This is the map of the game board: \n";
         gameBoard += "[Study]        [Hallway1]  [Hall]          [Hallway2]  [Lounge]\n";
         gameBoard += "[Hallway3]     [empty]     [Hallway4]      [empty]     [Hallway5]\n";
@@ -872,6 +874,38 @@ public class gameManager {
         }
      }
     
+    public void setupStartingPositions() {
+        int k = 0;
+        
+        for(int i= 0; i < allCharacters.length; i++) {
+            if(allCharacters[i].characterName.equals("Miss Scarlet") && allCharacters[i].playedByPlayer == true) {
+                board.movePlayer("Miss Scarlet", "Hallway2", false);
+                k++;
+            } 
+            if(allCharacters[i].characterName.equals("Col. Mustard") && allCharacters[i].playedByPlayer == true) {
+            	board.movePlayer("Col. Mustard", "Hallway5", false);
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Mrs. White") && allCharacters[i].playedByPlayer == true) {
+            	board.movePlayer("Mrs. White", "Hallway12", false);
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Mr. Green") && allCharacters[i].playedByPlayer == true) {
+            	board.movePlayer("Mr. Green", "Hallway11", false);
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Mrs. Peacock") && allCharacters[i].playedByPlayer == true) {
+            	board.movePlayer("Mrs. Peacock", "Hallway8", false);
+                k++;
+            }
+            if(allCharacters[i].characterName.equals("Prof. Plum") && allCharacters[i].playedByPlayer == true) {
+            	board.movePlayer("Prof. Plum", "Hallway3", false);
+                k++;
+            }
+            
+            
+         }
+    }
     
     public void determinePlayerOrder(){
         int k = 0;
